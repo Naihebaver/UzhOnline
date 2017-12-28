@@ -1,0 +1,12 @@
+
+toolbar:
+  - image | media | link | undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | codesample | code | fullscreen
+plugins:
+  - image
+  - media
+  - link
+  - colorpicker
+  - codesample
+  - code
+  - link
+  - fullscreen

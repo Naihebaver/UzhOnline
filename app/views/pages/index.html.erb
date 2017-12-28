@@ -1,0 +1,134 @@
+
+<div class="col-md-8 top-text section1">
+  <h3 class="tittle">Популярні новини <i class="glyphicon glyphicon-fire"></i></h3>
+      <% @posts.each do |post| %>
+        <div class="col-md-6">
+          <div class="article">
+              <%= image_tag post.image.url, width: 342, height: 187, class: "img-responsive" %>
+              <h5 class="top"><%= link_to truncate(post.title, length: 70) , post_path(post.id)%>
+                <% if current_user != nil and current_user.id == post.user_id %>
+
+    <small>
+      
+      <%= link_to edit_post_path(post.id) do %><span class="glyphicon glyphicon-pencil post-button"></span><% end %>
+      <%= link_to post_path(post.id), data: {confirm: 'Ви впевнені?'}, method: :delete do %> <span class="glyphicon glyphicon-trash post-button"></span><% end %>
+
+    </small>
+  <% end %> 
+  </h5>
+
+
+
+              <p><%= truncate(strip_tags(post.body), length: 150) %></p>
+              <p><%= post.created_at.strftime('%b %d, %Y в %H:%M') %>
+
+              <a class="span_link" href="#"><span class="glyphicon glyphicon-comment"></span>
+              <%= post.postcomments.count %> </a>
+              <a class="span_link" href="#"><span class="glyphicon glyphicon-eye-open"></span>
+              <%= post.impressionist_count(:filter=>:session_hash) %> </a>
+            
+              <%= link_to post_path(post.id) do %><span class="glyphicon glyphicon-circle-arrow-right"></span><% end %>
+
+              </p>
+          </div>
+        </div>
+<% end %>
+ 
+</div>
+
+
+           <div class="col-md-2 edit-pics section2">
+             <h3 class="tittle">Останні новини <i class="glyphicon glyphicon-time"></i></h3>
+                  <% @posts.each do |post| %>
+                    <div class="editor-pics">
+                     <div class="col-md-3 col-xs-3 item-pic">
+                        <%= image_tag post.image.url, width: 80, height: 65 %>
+                      </div>
+                      <div class="col-md-9 col-xs-9 item-details">
+                        
+                        <h5 class="inner two"><%= link_to truncate(post.title, length: 40) , post_path(post.id)%></h5>
+
+                         <div class="td-post-date two">
+
+                         <i class="glyphicon glyphicon-time"></i><%= post.created_at.strftime('%b %d, %Y в %H:%M') %>
+                         <a href="#"><i class="glyphicon glyphicon-comment"></i>0</a>
+
+                           <i class="glyphicon glyphicon-eye-open"></i>0
+                         </div>
+
+                       </div>
+                      <div class="clearfix"></div>
+                    </div>
+<% end %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 class="tittle">Важливі події <i class="glyphicon glyphicon-globe"></i></h3>
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#menu1">Скоро</a></li>
+    <li><a data-toggle="tab" href="#menu2">Тривають</a></li>
+    <li><a data-toggle="tab" href="#menu3">Завершені</a></li>
+  </ul>
+
+  <div class="tab-content">
+
+ <% @events.each do |event| %>
+
+ 
+  <% if Time.now < event.begin_event and Time.now < event.end_event %>
+  
+
+
+    <div id="menu1" class="tab-pane fade in active">
+      <h3><%= link_to truncate(event.title, length: 40) , event_path(event.id)%></h3>
+      <p><%= truncate(strip_tags(event.body), length: 100) %></p>
+      <p>Подія ще не почалася. До початку залишилось <%= distance_of_time_in_words(Time.now, event.begin_event, false) %></p>
+    </div>
+
+  <% elsif Time.now > event.begin_event and Time.now > event.end_event %>
+
+    <div id="menu3" class="tab-pane fade">
+      <h3><%= link_to truncate(event.title, length: 40) , event_path(event.id)%></h3>
+      <p><%= truncate(strip_tags(event.body), length: 100) %></p>
+      <p>Подія вже закінчилася</p>
+    </div>
+
+  <% elsif Time.now > event.begin_event and Time.now < event.end_event %>
+
+    <div id="menu2" class="tab-pane fade">
+      <h3><%= link_to truncate(event.title, length: 40) , event_path(event.id)%></h3>
+      <p><%= truncate(strip_tags(event.body), length: 100) %></p>
+      <p>Подія триває! До завершення залишилось <%= distance_of_time_in_words(Time.now, event.end_event, false) %> </p>
+    </div>
+
+  <% end %>
+
+<% end %>
+
+  </div>
+
+
+
+
+
+
+
+
+          
+ </div>
+
+

@@ -1,0 +1,27 @@
+<p>Заголовок <%= @event.title %> </p>
+<p>Текст <%= @event.body %> </p>
+
+<p>Початок <%= @event.begin_event %> </p>
+<p>Кінець <%= @event.end_event %> </p>
+
+<p><%= distance_of_time_in_words(@event.begin_event, @event.end_event, false) %> </p>
+
+<p>Зараз <%= Time.now %> </p>
+<p><%= distance_of_time_in_words(@event.begin_event, Time.now, false) %> </p>
+
+
+
+<% if Time.now > @event.begin_event and Time.now > @event.end_event %>
+	<p>Подія вже закінчилася</p>
+
+<% elsif Time.now < @event.begin_event and Time.now < @event.end_event %>
+	<p>Подія ще не почалася. До початку залишилось <%= distance_of_time_in_words(Time.now, @event.begin_event, false) %></p>
+<% elsif Time.now > @event.begin_event and Time.now < @event.end_event %>
+	<p>Подія триває! До завершення залишилось <%= distance_of_time_in_words(Time.now, @event.end_event, false) %> </p>
+
+<% end %>
+
+
+<br>
+<p>Дата створення <%= @event.created_at.strftime('%b %d, %Y в %H:%M') %> </p>
+
